@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!--开启注解扫描指定包中带有注解的类-->
+    <context:component-scan base-package="com.gerry.jnshu"/>
+    <!--<bean id="studentService" class="com.gerry.jnshu.service.impl.StudentServiceImpl">-->
+        <!--<property name="jdbcTemplate" ref="jdbcTemplate"></property>-->
+    <!--</bean>-->
+
+    <context:property-placeholder location="classpath:db.properties"/>
+    <!--<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">-->
+        <!--<property name="dataSource" ref="dataSource"></property>-->
+    <!--</bean>-->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+
+        <property name="user" value="${jdbc.username}"></property>
+        <property name="password" value="${jdbc.password}"></property>
+        <property name="jdbcUrl" value="${jdbc.url}"></property>
+        <property name="driverClass" value="${jdbc.driver}"></property>
+
+    </bean>
+
+    <!--&lt;!&ndash; 配置sqlSessionFactory，SqlSessionFactoryBean是用来产生sqlSessionFactory的 &ndash;&gt;-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!-- 加载mybatis的全局配置文件，放在classpath下的mybatis文件夹中了 -->
+        <property name="configLocation" value="classpath:mybatis/MybatisConfig.xml"/>
+        <!-- 加载数据源，使用上面配置好的数据源 -->
+        <property name="dataSource" ref="dataSource"/>
+        <!--<property name="mapperLocations" value="classpath*:com/gary/maventutorial/mappers/**/*.xml" />-->
+        <property name="mapperLocations" value="classpath:mappers/*.xml"/>
+    </bean>
+
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.gerry.jnshu.mapper"/>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+    </bean>
+
+    <!--&lt;!&ndash;配置通知、增强&ndash;&gt;-->
+    <!--<bean name="myAdvice" class="com.gerry.jnshu.advice.MyAdvice"/>-->
+    <!--&lt;!&ndash;AOP配置&ndash;&gt;-->
+    <!--<aop:config>-->
+        <!--<aop:aspect ref="myAdvice">-->
+            <!--<aop:pointcut id="pointcut" expression="execution(* *..*.*ServiceImpl.*(..))"/>-->
+            <!--<aop:before method="log" pointcut-ref="pointcut"/>-->
+        <!--</aop:aspect>-->
+    <!--</aop:config>-->
+    <!--<aop:aspectj-autoproxy />-->
+</beans>

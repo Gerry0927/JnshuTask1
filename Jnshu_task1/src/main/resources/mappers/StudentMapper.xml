@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gerry.jnshu.mapper.StudentMapper">
+
+    <!--<resultMap id="studentRM" type="com.gary.mavenmybatis.entity.Student">-->
+        <!--<id property="id" column="id"/>-->
+        <!--<result property="name" column="name"/>-->
+        <!--<result property="qq" column="qq"/>-->
+    <!--</resultMap>-->
+    <select id="queryStudentById" parameterType="long" resultType="com.gerry.jnshu.bean.Student">
+        SELECT * FROM student WHERE id = #{id}
+    </select>
+    <select id="queryStudentByName" parameterType="java.lang.String" resultType="com.gerry.jnshu.bean.Student">
+        SELECT id,name,jnshu_type,online_num,counsellor FROM student WHERE name = #{id}
+    </select>
+    <insert id="insertStudentInfo" useGeneratedKeys="true" keyProperty="id" parameterType="com.gerry.jnshu.bean.Student">
+      INSERT INTO student(name,qq,jnshu_type,join_time,school,online_num,daily_url,slogan,counsellor,known_path)
+                VALUES (#{name},#{qq},#{jnshuType},#{joinTime},#{school},#{onlineNum},#{dailyUrl},#{slogan},#{counsellor},#{knownPath})
+    </insert>
+    <update id="updateSloganById">
+       UPDATE student SET slogan = #{param1} WHERE ID = #{param2}
+
+   </update>
+    <delete id="deleteStudentById" parameterType="long">
+        DELETE FROM student WHERE  id = #{id}
+    </delete>
+</mapper>
