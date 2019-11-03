@@ -31,6 +31,12 @@ public class StudentServiceImpl implements StudentService {
     public long insertInfo(Student student) throws Exception{
         return studentMapper.insertStudentInfo(student);
     }
+
+    @Override
+    public int insertInfos(List<Student> stuInfos) throws Exception {
+        return studentMapper.insertStudentInfos(stuInfos);
+    }
+
     public boolean deleteById(long id) {
         return studentMapper.deleteStudentById(id);
     }

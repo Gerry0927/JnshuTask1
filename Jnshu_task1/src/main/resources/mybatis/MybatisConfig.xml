@@ -7,6 +7,8 @@
     <!--设置启用数据库字段下划线映射到java对象的驼峰式命名属性，默认为false-->
     <settings>
         <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <setting name="logImpl" value="LOG4J2" />
     </settings>
+
 
 </configuration>

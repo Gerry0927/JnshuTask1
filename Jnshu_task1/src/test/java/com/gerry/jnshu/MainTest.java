@@ -10,6 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
@@ -57,40 +58,61 @@ public class MainTest {
     @Test
     public void insertStudent() throws InterruptedException {
         //插入 100 万条数据
-        insert100w();
+        insert300w();
+
 
     }
 
-    private void insert100w() throws InterruptedException {
+    private void insert300w() throws InterruptedException {
         ExecutorService executorService = Executors.newFixedThreadPool(1000);
         //声明等待锁
         final CountDownLatch latch = new CountDownLatch(1);
+
         executorService.execute(new Runnable() {
             @Override
             public void run() {
+
                 long start = System.currentTimeMillis();
-                for (int i = 0; i < 1000000; i++) {
-                    Student student = new Student();
-                    student.setName("高世豪"+i);
-                    student.setJnshuType("JavaWeb");
-                    student.setOnlineNum("007");
-                    student.setDailyUrl("http://www/test.com");
-                    student.setCounsellor("令狐冲");
-                    try {
-                        studentService.insertInfo(student);
-                    } catch (Exception e) {
-                        logger.error(e.getMessage());
+                for (int i = 0; i < 30; i++) {
+                    final List<Student> studentInfos = new ArrayList<>();
+                    for(int j=0;j<100000;j++) {
+                        Student student = new Student();
+                        student.setName("高世豪" + j);
+                        student.setJnshuType("JavaWeb");
+                        student.setOnlineNum("007");
+                        student.setDailyUrl("http://www/test.com");
+                        student.setCounsellor("令狐冲");
+//                        try {
+////                            studentService.insertInfo(student);
+////                        } catch (Exception e) {
+////                            e.printStackTrace();
+////                        }
+                        synchronized (student){
+                            studentInfos.add(student);
+                        }
                     }
+                    try {
+                        studentService.insertInfos(studentInfos);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+//
                 }
-                //子任务结束，解除锁等待
+//                try {
+//                    logger.debug("要插入的List长度"+studentInfos.size());
+//                    studentService.insertInfos(studentInfos);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
                 latch.countDown();
                 long end = System.currentTimeMillis();
-                logger.info("插入 100 万条数据耗时：" + (end - start));
+                logger.debug("插入 300 万条数据耗时：" + (end - start));
             }
         });
         //开始等待，主线程挂起
         latch.await();
     }
+
 
 
     @Test
