@@ -6,11 +6,13 @@ import com.gerry.jnshu.service.StudentService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
 
 @Service("studentService")
+@Transactional
 public class StudentServiceImpl implements StudentService {
 
     Logger logger = LogManager.getLogger(StudentServiceImpl.class.getSimpleName());
@@ -32,7 +34,7 @@ public class StudentServiceImpl implements StudentService {
         return studentMapper.insertStudentInfo(student);
     }
 
-    @Override
+    @Transactional
     public int insertInfos(List<Student> stuInfos) throws Exception {
         return studentMapper.insertStudentInfos(stuInfos);
     }

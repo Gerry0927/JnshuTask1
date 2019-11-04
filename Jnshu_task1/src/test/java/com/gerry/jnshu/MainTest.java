@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -63,19 +64,20 @@ public class MainTest {
 
     }
 
-    private void insert300w() throws InterruptedException {
-        ExecutorService executorService = Executors.newFixedThreadPool(1000);
-        //声明等待锁
-        final CountDownLatch latch = new CountDownLatch(1);
 
-        executorService.execute(new Runnable() {
-            @Override
-            public void run() {
+    public void insert300w() throws InterruptedException {
+        //ExecutorService executorService = Executors.newFixedThreadPool(1000);
+        //声明等待锁
+//        final CountDownLatch latch = new CountDownLatch(1);
+
+//        executorService.execute(new Runnable() {
+//            @Override
+//            public void run() {
 
                 long start = System.currentTimeMillis();
-                for (int i = 0; i < 30; i++) {
+//                for (int i = 0; i < 30; i++) {
                     final List<Student> studentInfos = new ArrayList<>();
-                    for(int j=0;j<100000;j++) {
+                    for(int j=0;j<1000000;j++) {
                         Student student = new Student();
                         student.setName("高世豪" + j);
                         student.setJnshuType("JavaWeb");
@@ -87,30 +89,28 @@ public class MainTest {
 ////                        } catch (Exception e) {
 ////                            e.printStackTrace();
 ////                        }
-                        synchronized (student){
+//                        synchronized (student){
                             studentInfos.add(student);
-                        }
+//                        }
                     }
                     try {
                         studentService.insertInfos(studentInfos);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-//
-                }
 //                try {
 //                    logger.debug("要插入的List长度"+studentInfos.size());
 //                    studentService.insertInfos(studentInfos);
 //                } catch (Exception e) {
 //                    e.printStackTrace();
 //                }
-                latch.countDown();
+//                latch.countDown();
                 long end = System.currentTimeMillis();
-                logger.debug("插入 300 万条数据耗时：" + (end - start));
-            }
-        });
+                logger.debug("插入 100 万条数据耗时：" + (end - start));
+            //}
+        //});
         //开始等待，主线程挂起
-        latch.await();
+//        latch.await();
     }
 
 
