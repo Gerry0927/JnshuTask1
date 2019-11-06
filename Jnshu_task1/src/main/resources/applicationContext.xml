@@ -7,14 +7,14 @@
 
     <!--开启注解扫描指定包中带有注解的类-->
     <context:component-scan base-package="com.gerry.jnshu"/>
-    <!--<bean id="studentService" class="com.gerry.jnshu.service.impl.StudentServiceImpl">-->
+    <!--<bean id="studentService" class="com.gerry.jnshu.service.mybatis.StudentServiceImpl">-->
         <!--<property name="jdbcTemplate" ref="jdbcTemplate"></property>-->
     <!--</bean>-->
 
     <context:property-placeholder location="classpath:db.properties"/>
-    <!--<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">-->
-        <!--<property name="dataSource" ref="dataSource"></property>-->
-    <!--</bean>-->
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
     <!-- 数据源 -->
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
           init-method="init" destroy-method="close">

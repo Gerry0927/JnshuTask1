@@ -7,11 +7,11 @@ import java.util.List;
 public interface StudentService {
     List<Student> queryById(long id);
 
-    List<Student> queryByName(String name) throws Exception;
+    //List<Student> queryByName(String name) throws Exception;
 
     long insertInfo(Student student) throws Exception;
 
-    int insertInfos(List<Student> stuInfos) throws Exception;
+//    int insertInfos(List<Student> stuInfos) throws Exception;
 
     boolean deleteById(long id);
 

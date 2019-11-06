@@ -1,4 +1,4 @@
-package com.gerry.jnshu.service.impl;
+package com.gerry.jnshu.service.mybatis;
 
 import com.gerry.jnshu.bean.Student;
 import com.gerry.jnshu.mapper.StudentMapper;
@@ -25,18 +25,11 @@ public class StudentServiceImpl implements StudentService {
         return studentMapper.queryStudentById(id);
     }
 
-    @Override
-    public List<Student> queryByName(String name){
-        return studentMapper.queryStudentByName(name);
-    }
+
+
 
     public long insertInfo(Student student) throws Exception{
         return studentMapper.insertStudentInfo(student);
-    }
-
-    @Transactional
-    public int insertInfos(List<Student> stuInfos) throws Exception {
-        return studentMapper.insertStudentInfos(stuInfos);
     }
 
     public boolean deleteById(long id) {
@@ -45,4 +38,12 @@ public class StudentServiceImpl implements StudentService {
     public boolean updateSloganById(String slogan, long id) {
         return studentMapper.updateSloganById(slogan,id);
     }
+
+//    @Transactional
+//    public int insertInfos(List<Student> stuInfos) throws Exception {
+//        return studentMapper.insertStudentInfos(stuInfos);
+//    }
+//    public List<Student> queryByName(String name){
+//        return studentMapper.queryStudentByName(name);
+//    }
 }

@@ -40,7 +40,7 @@ public class MainTest {
         List<Student> students = null;
         try {
             Thread.sleep(30000);
-            students = studentService.queryByName("高世豪999852");
+//            students = studentService.queryByName("高世豪999852");
             if (students.size() > 0) {
                 logger.info("查询结果----->" + students.get(0));
             } else {
@@ -61,7 +61,6 @@ public class MainTest {
         //插入 100 万条数据
         insert300w();
 
-
     }
 
 
@@ -74,56 +73,43 @@ public class MainTest {
 //            @Override
 //            public void run() {
 
-                long start = System.currentTimeMillis();
-//                for (int i = 0; i < 30; i++) {
-                    final List<Student> studentInfos = new ArrayList<>();
-                    for(int j=0;j<1000000;j++) {
-                        Student student = new Student();
-                        student.setName("高世豪" + j);
-                        student.setJnshuType("JavaWeb");
-                        student.setOnlineNum("007");
-                        student.setDailyUrl("http://www/test.com");
-                        student.setCounsellor("令狐冲");
-//                        try {
-////                            studentService.insertInfo(student);
-////                        } catch (Exception e) {
-////                            e.printStackTrace();
-////                        }
-//                        synchronized (student){
-                            studentInfos.add(student);
-//                        }
-                    }
-                    try {
-                        studentService.insertInfos(studentInfos);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-//                try {
-//                    logger.debug("要插入的List长度"+studentInfos.size());
-//                    studentService.insertInfos(studentInfos);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//                latch.countDown();
-                long end = System.currentTimeMillis();
-                logger.debug("插入 100 万条数据耗时：" + (end - start));
+        long start = System.currentTimeMillis();
+//       for (int i = 0; i < 30; i++) {
+        final List<Student> studentInfos = new ArrayList<>();
+        for (int j = 0; j < 1000000; j++) {
+            Student student = new Student();
+            student.setName("高世豪" + j);
+            student.setJnshuType("JavaWeb");
+            student.setOnlineNum("007");
+            student.setDailyUrl("http://www/test.com");
+            student.setCounsellor("令狐冲");
+//          try {
+//                studentService.insertInfo(student);
+//          } catch (Exception e) {
+//                e.printStackTrace();
+//          }
+            synchronized (student) {
+                studentInfos.add(student);
+//             }
+            }
+            try {
+//                studentService.insertInfos(studentInfos);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+//          try {
+//               logger.debug("要插入的List长度"+studentInfos.size());
+//               studentService.insertInfos(studentInfos);
+//           } catch (Exception e) {
+//                e.printStackTrace();
+//           }
+//          latch.countDown();
+            long end = System.currentTimeMillis();
+            logger.debug("插入 100 万条数据耗时：" + (end - start));
             //}
-        //});
-        //开始等待，主线程挂起
+            //});
+            //开始等待，主线程挂起
 //        latch.await();
-    }
-
-
-
-    @Test
-    public void deleteStudentById() {
-        boolean flag = studentService.deleteById(2);
-        logger.info("删除结果---->" + flag);
-    }
-
-    @Test
-    public void updateStudentById() {
-        boolean flag = studentService.updateSloganById("加油学习！！！", 1);
-        logger.info("更新结果---->" + flag);
+        }
     }
 }
